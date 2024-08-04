@@ -1,6 +1,5 @@
-import logo from './logo.svg';
+import React , { useState, useEffect } from 'react';
 import './App.css';
-import { useEffect, useState } from 'react';
 
 function App() {
   const [mkdata , setMkdata] = useState([]);
@@ -15,11 +14,11 @@ function App() {
     fetch('/api/check')
     .then(resp => resp.json())
     .then(res => {
-        if(res.result != false){
-          setAccountId(res.result);
-        }else{
-            window.location.href="/login.html";
-        }
+      if(res.result != false){
+        setAccountId(res.result);
+      }else{
+        window.location.href="/login.html";
+      }
     });
   }
 
@@ -33,24 +32,24 @@ function App() {
 
   const getById = (e) => {
     fetch('/api/mark/' + e.target.name)
-        .then(resp => resp.json())
-        .then(res => {
-          setTitle(res.title);
-          setSource(res.content);
-          setEditId(res.id);
-          getRender(res.source);
-          setMode("更新");
+      .then(resp => resp.json())
+      .then(res => {
+        setTitle(res.title);
+        setSource(res.content);
+        setEditId(res.id);
+        getRender(res.content);
+        setMode("更新");
     });
   }
 
   const getRender = (src) => {
     const source = {source: src};
     fetch('/api/mark/render',{
-        method:'post',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(source),
+      method:'post',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(source),
     }).then(data => data.json())
       .then(res => {
         setContent(res.render);
@@ -67,16 +66,16 @@ function App() {
 
   const create = () => {
     const data = {
-        title:title,
-        content:source,
-        accountId:accountId
+      title:title,
+      content:source,
+      accountId:accountId
     }
     fetch('/api/add',{
-        method:'post',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(data),
+      method:'post',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(data),
     }).then(data => {
         getAllData();
     });
@@ -84,16 +83,16 @@ function App() {
 
   const update = () => {
     const data = {
-        title:title,
-        content:source,
-        id:editId
+      title:title,
+      content:source,
+      id:editId
     }
     fetch('/api/mark/edit',{
-        method:'post',
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(data),
+      method:'post',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(data),
     }).then(data => {
       console.log(data);
     });
@@ -113,9 +112,9 @@ function App() {
   } , []);
 
   return(
-    <div className="app">
+    <div className="App">
       <header>
-        <h1 className='display-4 text-primary'>Markdown data</h1>
+        <h1 className="display-4 text-primary">Markdown data</h1>
       </header>
       <div role='main'>
         <p className='h5 my-4'>Hi,<span>{accountId}</span>!</p>
@@ -126,7 +125,7 @@ function App() {
               {mkdata.map((ob)=>(
                 <tr>
                   <td>
-                    <a className='text-dark' href='#' onClick={getById} name={ob.id}>{ob.title}</a>
+                    <a className="text-dark" href="#" onClick={getById} name={ob.id}>{ob.title}</a>
                   </td>
                 </tr>
               ))}
@@ -151,12 +150,12 @@ function App() {
             Preview
           </div>
           <div class="card-body">
-            <div dangerouslySetInnerHTML={{ __html:content}} />
+            <div dangerouslySetInnerHTML={{ __html: content }} />
           </div>
         </div>
       </div>
     </div>
   );
 }
-  
+
 export default App;
