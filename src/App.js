@@ -151,7 +151,7 @@ function App() {
             Preview
           </div>
           <div class="card-body">
-            <div dengerouslySerInnerHTML={{ __html:content}} />
+            <div dangerouslySetInnerHTML={{ __html:content}} />
           </div>
         </div>
       </div>
